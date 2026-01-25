@@ -45,8 +45,10 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useQuasar } from "quasar";
+import { useRouter } from "vue-router";
 
 const $q = useQuasar();
+const router = useRouter();
 
 const columns = [
   {
@@ -114,11 +116,7 @@ const pagination = ref({
 });
 
 const adicionarFornecedor = () => {
-  $q.notify({
-    type: "info",
-    message: "Funcionalidade de adicionar fornecedor",
-    position: "top",
-  });
+  router.push("/cadastro-fornecedor");
 };
 
 const editarFornecedor = (fornecedor: any) => {

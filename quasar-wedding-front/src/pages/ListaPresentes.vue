@@ -55,8 +55,10 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useQuasar } from "quasar";
+import { useRouter } from "vue-router";
 
 const $q = useQuasar();
+const router = useRouter();
 
 const columns = [
   {
@@ -124,11 +126,7 @@ const pagination = ref({
 });
 
 const adicionarPresente = () => {
-  $q.notify({
-    type: "info",
-    message: "Funcionalidade de adicionar presente",
-    position: "top",
-  });
+  router.push("/cadastro-presente");
 };
 
 const editarPresente = (presente: any) => {
