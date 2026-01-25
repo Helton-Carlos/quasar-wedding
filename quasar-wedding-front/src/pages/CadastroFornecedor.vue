@@ -75,7 +75,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useQuasar } from "quasar";
 import type { Fornecedor } from "src/utils/fornecedor";
@@ -105,6 +105,43 @@ const form = ref<Fornecedor>({
   categoria: "",
   telefone: "",
   valor: "",
+});
+
+// Mock de dados para simular carregamento
+const mockFornecedores = [
+  {
+    id: 1,
+    nome: "Buffet Delícias",
+    categoria: "Buffet",
+    telefone: "(11) 3456-7890",
+    valor: "R$ 15.000,00",
+  },
+  {
+    id: 2,
+    nome: "Foto & Vídeo Premium",
+    categoria: "Fotografia",
+    telefone: "(11) 3456-1234",
+    valor: "R$ 5.000,00",
+  },
+  {
+    id: 3,
+    nome: "Flores & Decoração",
+    categoria: "Decoração",
+    telefone: "(11) 3456-5678",
+    valor: "R$ 8.000,00",
+  },
+];
+
+onMounted(() => {
+  const id = route.query.id;
+  if (id) {
+    isEdit.value = true;
+    // Simula carregamento de dados
+    const fornecedor = mockFornecedores.find((f) => f.id === Number(id));
+    if (fornecedor) {
+      form.value = { ...fornecedor };
+    }
+  }
 });
 
 const salvarFornecedor = () => {

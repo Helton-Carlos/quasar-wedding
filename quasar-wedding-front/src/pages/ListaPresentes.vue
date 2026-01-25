@@ -130,10 +130,9 @@ const adicionarPresente = () => {
 };
 
 const editarPresente = (presente: any) => {
-  $q.notify({
-    type: "info",
-    message: `Editar: ${presente.nome}`,
-    position: "top",
+  router.push({
+    path: "/cadastro-presente",
+    query: { id: presente.id },
   });
 };
 

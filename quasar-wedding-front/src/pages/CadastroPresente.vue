@@ -74,7 +74,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { ref, watch, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useQuasar } from "quasar";
 import type { Presente } from "src/utils/presente";
@@ -91,6 +91,43 @@ const form = ref<Presente>({
   valor: "",
   status: "Disponível",
   compradoPor: "-",
+});
+
+// Mock de dados para simular carregamento
+const mockPresentes = [
+  {
+    id: 1,
+    nome: "Jogo de Panelas",
+    valor: "R$ 450,00",
+    status: "Disponível",
+    compradoPor: "-",
+  },
+  {
+    id: 2,
+    nome: "Liquidificador",
+    valor: "R$ 250,00",
+    status: "Reservado",
+    compradoPor: "Ana Costa",
+  },
+  {
+    id: 3,
+    nome: "Jogo de Cama",
+    valor: "R$ 350,00",
+    status: "Disponível",
+    compradoPor: "-",
+  },
+];
+
+onMounted(() => {
+  const id = route.query.id;
+  if (id) {
+    isEdit.value = true;
+    // Simula carregamento de dados
+    const presente = mockPresentes.find((p) => p.id === Number(id));
+    if (presente) {
+      form.value = { ...presente };
+    }
+  }
 });
 
 watch(

@@ -136,10 +136,9 @@ const adicionarConvidado = () => {
 };
 
 const editarConvidado = (convidado: any) => {
-  $q.notify({
-    type: "info",
-    message: `Editar: ${convidado.nome}`,
-    position: "top",
+  router.push({
+    path: "/cadastro-convidado",
+    query: { id: convidado.id },
   });
 };
 

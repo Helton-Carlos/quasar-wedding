@@ -120,10 +120,9 @@ const adicionarFornecedor = () => {
 };
 
 const editarFornecedor = (fornecedor: any) => {
-  $q.notify({
-    type: "info",
-    message: `Editar: ${fornecedor.nome}`,
-    position: "top",
+  router.push({
+    path: "/cadastro-fornecedor",
+    query: { id: fornecedor.id },
   });
 };
 

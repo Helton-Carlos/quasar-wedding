@@ -78,7 +78,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useQuasar } from "quasar";
 import type { Convidado } from "src/utils/convidado";
@@ -95,6 +95,43 @@ const form = ref<Convidado>({
   email: "",
   telefone: "",
   confirmado: "Pendente",
+});
+
+// Mock de dados para simular carregamento
+const mockConvidados = [
+  {
+    id: 1,
+    nome: "João Silva",
+    email: "joao@email.com",
+    telefone: "(11) 98765-4321",
+    confirmado: "Sim",
+  },
+  {
+    id: 2,
+    nome: "Maria Santos",
+    email: "maria@email.com",
+    telefone: "(11) 98765-1234",
+    confirmado: "Não",
+  },
+  {
+    id: 3,
+    nome: "Pedro Oliveira",
+    email: "pedro@email.com",
+    telefone: "(11) 98765-5678",
+    confirmado: "Sim",
+  },
+];
+
+onMounted(() => {
+  const id = route.query.id;
+  if (id) {
+    isEdit.value = true;
+    // Simula carregamento de dados
+    const convidado = mockConvidados.find((c) => c.id === Number(id));
+    if (convidado) {
+      form.value = { ...convidado };
+    }
+  }
 });
 
 const salvarConvidado = () => {
