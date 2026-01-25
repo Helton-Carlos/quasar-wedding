@@ -1,43 +1,28 @@
 <template>
   <q-page class="row items-center justify-evenly">
-    <example-component
-      title="Example component"
-      active
-      :todos="todos"
-      :meta="meta"
-    ></example-component>
+    <q-card title="Example component" active :todos="card"></q-card>
   </q-page>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import type { Todo, Meta } from 'components/models';
-import ExampleComponent from 'components/ExampleComponent.vue';
+import { ref } from "vue";
+import type { Card } from "components/models";
 
-const todos = ref<Todo[]>([
+const card = ref<Card[]>([
   {
     id: 1,
-    content: 'ct1'
+    content: "Lista de convidados",
+    path: "lista-convidados",
   },
   {
     id: 2,
-    content: 'ct2'
+    content: "Lista de presentes",
+    path: "lista-presentes",
   },
   {
     id: 3,
-    content: 'ct3'
+    content: "Fornecedores",
+    path: "fornecedores",
   },
-  {
-    id: 4,
-    content: 'ct4'
-  },
-  {
-    id: 5,
-    content: 'ct5'
-  }
 ]);
-
-const meta = ref<Meta>({
-  totalCount: 1200
-});
 </script>

@@ -1,8 +1,5 @@
-export interface Todo {
+export interface Card {
   id: number;
   content: string;
-}
-
-export interface Meta {
-  totalCount: number;
+  path: string;
 }
