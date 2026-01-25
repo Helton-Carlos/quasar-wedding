@@ -15,12 +15,24 @@ const routes: RouteRecordRaw[] = [
         component: () => import("pages/ListaConvidados.vue"),
       },
       {
+        path: "cadastro-convidado",
+        component: () => import("pages/CadastroConvidado.vue"),
+      },
+      {
         path: "lista-presentes",
         component: () => import("pages/ListaPresentes.vue"),
       },
       {
+        path: "cadastro-presente",
+        component: () => import("pages/CadastroPresente.vue"),
+      },
+      {
         path: "fornecedores",
         component: () => import("pages/Fornecedores.vue"),
+      },
+      {
+        path: "cadastro-fornecedor",
+        component: () => import("pages/CadastroFornecedor.vue"),
       },
     ],
   },
