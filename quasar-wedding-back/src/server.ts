@@ -1,11 +1,14 @@
 import express from "express";
 import cors from "cors";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const PORT = process.env.PORT || 4000;
 
 const app = express();
-
-const PORT = 8080;
 app.use(cors());
 
 app.listen(() => {
-  console.log(`Funcionou: ${PORT}`);
+  console.log(`Connect system: ${PORT}`);
 });
