@@ -1,7 +1,8 @@
 import { db } from "../db/database.js";
 import type { Request, Response } from "express";
+import type { User } from "../types/user.js";
 
-export async function register(req: Request, res: Response) {
+export async function register(req: Request<User>, res: Response) {
   const { name, email, password } = req.body;
 
   try {
