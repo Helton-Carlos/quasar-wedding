@@ -1,7 +1,28 @@
+import { db } from "../db/database.js";
 import type { Request, Response } from "express";
 
 export async function register(req: Request, res: Response) {
-  res.send({
-    test: "test",
-  });
+  const { name, email, password } = req.body;
+
+  try {
+    const stmt = db.prepare(
+      "INSERT INTO user (name, email, password) VALUES (?, ?, ?)",
+    );
+
+    const result = stmt.run(name, email, password);
+
+    res.status(201).json({
+      message: "Usuário criado com sucesso!",
+      result,
+    });
+  } catch (error: any) {
+    console.error("Erro ao criar usuário:", error);
+
+    if (error.message.includes("UNIQUE")) {
+      res.status(409).json({ erro: "Email já cadastrado" });
+      return;
+    }
+
+    res.status(500).json({ erro: "Erro no servidor" });
+  }
 }
