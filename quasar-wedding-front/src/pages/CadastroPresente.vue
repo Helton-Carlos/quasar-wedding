@@ -93,7 +93,6 @@ const form = ref<Presente>({
   compradoPor: "-",
 });
 
-// Mock de dados para simular carregamento
 const mockPresentes = [
   {
     id: 1,
@@ -122,7 +121,7 @@ onMounted(() => {
   const id = route.query.id;
   if (id) {
     isEdit.value = true;
-    // Simula carregamento de dados
+
     const presente = mockPresentes.find((p) => p.id === Number(id));
     if (presente) {
       form.value = { ...presente };

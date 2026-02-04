@@ -107,7 +107,6 @@ const form = ref<Fornecedor>({
   valor: "",
 });
 
-// Mock de dados para simular carregamento
 const mockFornecedores = [
   {
     id: 1,
@@ -136,7 +135,6 @@ onMounted(() => {
   const id = route.query.id;
   if (id) {
     isEdit.value = true;
-    // Simula carregamento de dados
     const fornecedor = mockFornecedores.find((f) => f.id === Number(id));
     if (fornecedor) {
       form.value = { ...fornecedor };
