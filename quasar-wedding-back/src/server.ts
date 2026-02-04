@@ -13,6 +13,6 @@ app.use(cors());
 app.use(express.json());
 app.use("/api", router);
 
-app.listen(() => {
+app.listen(PORT, () => {
   console.log(`Connect system: ${PORT}`);
 });
