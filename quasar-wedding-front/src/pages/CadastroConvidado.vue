@@ -34,7 +34,7 @@
 
         <q-input
           filled
-          v-model="form.telefone"
+          v-model="form.phone"
           label="Telefone *"
           mask="(##) #####-####"
           :rules="[(val) => !!val || 'Telefone é obrigatório']"
@@ -46,7 +46,7 @@
 
         <q-select
           filled
-          v-model="form.confirmado"
+          v-model="form.confirmed"
           :options="['Sim', 'Não', 'Pendente']"
           label="Confirmado *"
           :rules="[(val) => !!val || 'Selecione uma opção']"
@@ -81,7 +81,7 @@
 import { ref, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useQuasar } from "quasar";
-import type { Convidado } from "src/utils/convidado";
+import type { Guest } from "src/utils/convidado";
 
 const router = useRouter();
 const route = useRoute();
@@ -90,35 +90,34 @@ const $q = useQuasar();
 const isEdit = ref(false);
 const loading = ref(false);
 
-const form = ref<Convidado>({
+const form = ref<Guest>({
   nome: "",
   email: "",
-  telefone: "",
-  confirmado: "Pendente",
+  phone: "",
+  confirmed: "Pendente",
 });
 
-// Mock de dados para simular carregamento
-const mockConvidados = [
+const mockGuests = [
   {
     id: 1,
     nome: "João Silva",
     email: "joao@email.com",
-    telefone: "(11) 98765-4321",
-    confirmado: "Sim",
+    phone: "(11) 98765-4321",
+    confirmed: "Sim",
   },
   {
     id: 2,
     nome: "Maria Santos",
     email: "maria@email.com",
-    telefone: "(11) 98765-1234",
-    confirmado: "Não",
+    phone: "(11) 98765-1234",
+    confirmed: "Não",
   },
   {
     id: 3,
     nome: "Pedro Oliveira",
     email: "pedro@email.com",
-    telefone: "(11) 98765-5678",
-    confirmado: "Sim",
+    phone: "(11) 98765-5678",
+    confirmed: "Sim",
   },
 ];
 
@@ -126,8 +125,7 @@ onMounted(() => {
   const id = route.query.id;
   if (id) {
     isEdit.value = true;
-    // Simula carregamento de dados
-    const convidado = mockConvidados.find((c) => c.id === Number(id));
+    const convidado = mockGuests.find((c) => c.id === Number(id));
     if (convidado) {
       form.value = { ...convidado };
     }
