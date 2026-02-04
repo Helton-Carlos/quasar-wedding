@@ -28,18 +28,16 @@ export async function register(req: Request<User>, res: Response) {
   }
 }
 
-export async function getTest(req: Request<User>, res: Response) {
+export async function getAllUsers(_req: Request<User>, res: Response) {
   try {
+    const result = db.prepare("SELECT * FROM user").all();
+
     res.status(200).send({
-      message: "Busca de usuário com sucesso!",
-      data: {
-        name: "Helton Brito",
-        email: "helton@gmail.com",
-        password: "123457",
-      },
+      message: "Busca de usuários com sucesso!",
+      data: result,
     });
   } catch (error: any) {
-    console.error("Erro ao buscar usuário:", error);
+    console.error("Erro ao buscar usuários:", error);
 
     res.status(500).json({ erro: "Erro no servidor" });
   }
