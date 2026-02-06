@@ -8,7 +8,7 @@
       <q-form @submit="salvarPresente" class="q-gutter-md">
         <q-input
           filled
-          v-model="form.nome"
+          v-model="form.name"
           label="Nome do Presente *"
           :rules="[(val) => !!val || 'Nome é obrigatório']"
         >
@@ -19,7 +19,7 @@
 
         <q-input
           filled
-          v-model="form.valor"
+          v-model="form.price"
           label="Valor *"
           prefix="R$"
           :rules="[(val) => !!val || 'Valor é obrigatório']"
@@ -43,7 +43,7 @@
 
         <q-input
           filled
-          v-model="form.compradoPor"
+          v-model="form.idGuest"
           label="Comprado Por"
           :disable="form.status === 'Disponível'"
         >
@@ -77,7 +77,7 @@
 import { ref, watch, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useQuasar } from "quasar";
-import type { Presente } from "src/utils/presente";
+import type { Gift } from "src/utils/presente";
 
 const router = useRouter();
 const route = useRoute();
@@ -86,34 +86,34 @@ const $q = useQuasar();
 const isEdit = ref(false);
 const loading = ref(false);
 
-const form = ref<Presente>({
-  nome: "",
-  valor: "",
+const form = ref<Gift>({
+  name: "",
+  price: "",
   status: "Disponível",
-  compradoPor: "-",
+  idGuest: -1,
 });
 
 const mockPresentes = [
   {
     id: 1,
-    nome: "Jogo de Panelas",
-    valor: "R$ 450,00",
+    name: "Jogo de Panelas",
+    price: "R$ 450,00",
     status: "Disponível",
-    compradoPor: "-",
+    idGuest: -1,
   },
   {
     id: 2,
-    nome: "Liquidificador",
-    valor: "R$ 250,00",
+    name: "Liquidificador",
+    price: "R$ 250,00",
     status: "Reservado",
-    compradoPor: "Ana Costa",
+    idGuest: 1,
   },
   {
     id: 3,
-    nome: "Jogo de Cama",
-    valor: "R$ 350,00",
+    name: "Jogo de Cama",
+    price: "R$ 350,00",
     status: "Disponível",
-    compradoPor: "-",
+    idGuest: -1,
   },
 ];
 

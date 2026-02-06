@@ -24,3 +24,11 @@ db.exec(`CREATE TABLE IF NOT EXISTS supplier(
     phone TEXT NOT NULL,
     price TEXT NOT NULL
 )`);
+
+db.exec(`CREATE TABLE IF NOT EXISTS gift(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    price TEXT NOT NULL,
+    status TEXT NOT NULL,
+    idGuest INTEGER NOT NULL
+)`);
