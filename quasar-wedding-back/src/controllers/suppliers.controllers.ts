@@ -19,11 +19,6 @@ export async function registerSupplier(req: Request<Supplier>, res: Response) {
   } catch (error: any) {
     console.error("Erro ao criar fornecedor:", error);
 
-    if (error.message.includes("UNIQUE")) {
-      res.status(409).json({ erro: "Email já cadastrado" });
-      return;
-    }
-
     res.status(500).json({ erro: "Erro no servidor" });
   }
 }
