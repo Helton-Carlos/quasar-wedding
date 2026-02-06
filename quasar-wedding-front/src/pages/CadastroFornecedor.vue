@@ -8,7 +8,7 @@
       <q-form @submit="salvarFornecedor" class="q-gutter-md">
         <q-input
           filled
-          v-model="form.nome"
+          v-model="form.name"
           label="Nome do Fornecedor *"
           :rules="[(val) => !!val || 'Nome é obrigatório']"
         >
@@ -19,7 +19,7 @@
 
         <q-select
           filled
-          v-model="form.categoria"
+          v-model="form.categories"
           :options="categorias"
           label="Categoria *"
           :rules="[(val) => !!val || 'Selecione uma categoria']"
@@ -31,7 +31,7 @@
 
         <q-input
           filled
-          v-model="form.telefone"
+          v-model="form.phone"
           label="Telefone *"
           mask="(##) ####-####"
           :rules="[(val) => !!val || 'Telefone é obrigatório']"
@@ -43,7 +43,7 @@
 
         <q-input
           filled
-          v-model="form.valor"
+          v-model="form.price"
           label="Valor do Serviço *"
           prefix="R$"
           :rules="[(val) => !!val || 'Valor é obrigatório']"
@@ -78,7 +78,7 @@
 import { ref, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useQuasar } from "quasar";
-import type { Fornecedor } from "src/utils/fornecedor";
+import type { Supplier } from "src/utils/fornecedor";
 
 const router = useRouter();
 const route = useRoute();
@@ -100,34 +100,34 @@ const categorias = [
   "Outros",
 ];
 
-const form = ref<Fornecedor>({
-  nome: "",
-  categoria: "",
-  telefone: "",
-  valor: "",
+const form = ref<Supplier>({
+  name: "",
+  categories: "",
+  phone: "",
+  price: "",
 });
 
 const mockFornecedores = [
   {
     id: 1,
-    nome: "Buffet Delícias",
-    categoria: "Buffet",
-    telefone: "(11) 3456-7890",
-    valor: "R$ 15.000,00",
+    name: "Buffet Delícias",
+    categories: "Buffet",
+    phone: "(11) 3456-7890",
+    price: "R$ 15.000,00",
   },
   {
     id: 2,
-    nome: "Foto & Vídeo Premium",
-    categoria: "Fotografia",
-    telefone: "(11) 3456-1234",
-    valor: "R$ 5.000,00",
+    name: "Foto & Vídeo Premium",
+    categories: "Fotografia",
+    phone: "(11) 3456-1234",
+    price: "R$ 5.000,00",
   },
   {
     id: 3,
-    nome: "Flores & Decoração",
-    categoria: "Decoração",
-    telefone: "(11) 3456-5678",
-    valor: "R$ 8.000,00",
+    name: "Flores & Decoração",
+    categories: "Decoração",
+    phone: "(11) 3456-5678",
+    price: "R$ 8.000,00",
   },
 ];
 
