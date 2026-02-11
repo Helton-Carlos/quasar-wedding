@@ -62,17 +62,20 @@
 import { ref } from "vue";
 import { useQuasar } from "quasar";
 import { useRouter } from "vue-router";
+import { onMounted } from "vue";
+import { api } from "src/boot/api";
 
 const $q = useQuasar();
 const router = useRouter();
+const convidados = ref([]);
 
 const columns = [
   {
-    name: "nome",
+    name: "name",
     required: true,
     label: "Nome",
     align: "left" as const,
-    field: "nome" as const,
+    field: "name" as const,
     sortable: true,
   },
   {
@@ -83,16 +86,16 @@ const columns = [
     sortable: true,
   },
   {
-    name: "telefone",
+    name: "phone",
     label: "Telefone",
     align: "left" as const,
-    field: "telefone" as const,
+    field: "phone" as const,
   },
   {
-    name: "confirmado",
+    name: "confirmed",
     label: "Confirmado",
     align: "center" as const,
-    field: "confirmado" as const,
+    field: "confirmed" as const,
     sortable: true,
   },
   {
@@ -103,33 +106,32 @@ const columns = [
   },
 ];
 
-const convidados = ref([
-  {
-    id: 1,
-    nome: "João Silva",
-    email: "joao@email.com",
-    telefone: "(11) 98765-4321",
-    confirmado: "Sim",
-  },
-  {
-    id: 2,
-    nome: "Maria Santos",
-    email: "maria@email.com",
-    telefone: "(11) 98765-1234",
-    confirmado: "Não",
-  },
-  {
-    id: 3,
-    nome: "Pedro Oliveira",
-    email: "pedro@email.com",
-    telefone: "(11) 98765-5678",
-    confirmado: "Sim",
-  },
-]);
+onMounted(() => {
+  getAllGuests();
+});
 
 const pagination = ref({
   rowsPerPage: 10,
 });
+
+async function getAllGuests() {
+  try {
+    const response = await api.get("/api/guest/get-all-guests");
+    convidados.value = response.data.data;
+
+    $q.notify({
+      type: "success",
+      message: response.data.message || "Convidados carregados com sucesso",
+      position: "top",
+    });
+  } catch (error) {
+    $q.notify({
+      type: "negative",
+      message: "Erro ao carregar convidados",
+      position: "top",
+    });
+  }
+}
 
 const adicionarConvidado = () => {
   router.push("/cadastro-convidado");
