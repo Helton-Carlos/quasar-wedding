@@ -46,37 +46,40 @@
 import { ref } from "vue";
 import { useQuasar } from "quasar";
 import { useRouter } from "vue-router";
+import { onMounted } from "vue";
+import { api } from "src/boot/api";
 
 const $q = useQuasar();
 const router = useRouter();
+const fornecedores = ref([]);
 
 const columns = [
   {
-    name: "nome",
+    name: "name",
     required: true,
     label: "Nome",
     align: "left" as const,
-    field: "nome" as const,
+    field: "name" as const,
     sortable: true,
   },
   {
-    name: "categoria",
+    name: "categories",
     label: "Categoria",
     align: "left" as const,
-    field: "categoria" as const,
+    field: "categories" as const,
     sortable: true,
   },
   {
-    name: "telefone",
+    name: "phone",
     label: "Telefone",
     align: "left" as const,
-    field: "telefone" as const,
+    field: "phone" as const,
   },
   {
-    name: "valor",
+    name: "price",
     label: "Valor",
     align: "left" as const,
-    field: "valor" as const,
+    field: "price" as const,
     sortable: true,
   },
   {
@@ -87,33 +90,32 @@ const columns = [
   },
 ];
 
-const fornecedores = ref([
-  {
-    id: 1,
-    nome: "Buffet Delícias",
-    categoria: "Buffet",
-    telefone: "(11) 3456-7890",
-    valor: "R$ 15.000,00",
-  },
-  {
-    id: 2,
-    nome: "Foto & Vídeo Premium",
-    categoria: "Fotografia",
-    telefone: "(11) 3456-1234",
-    valor: "R$ 5.000,00",
-  },
-  {
-    id: 3,
-    nome: "Flores & Decoração",
-    categoria: "Decoração",
-    telefone: "(11) 3456-5678",
-    valor: "R$ 8.000,00",
-  },
-]);
+onMounted(async () => {
+  await getAllSupplier();
+});
 
 const pagination = ref({
   rowsPerPage: 10,
 });
+
+async function getAllSupplier() {
+  try {
+    const response = await api.get("/supplier/get-all-suppliers");
+    fornecedores.value = response.data.data;
+
+    $q.notify({
+      type: "success",
+      message: response.data.message || "Fornecedores carregados com sucesso",
+      position: "top",
+    });
+  } catch (error) {
+    $q.notify({
+      type: "negative",
+      message: "Erro ao carregar fornecedores",
+      position: "top",
+    });
+  }
+}
 
 const adicionarFornecedor = () => {
   router.push("/cadastro-fornecedor");
