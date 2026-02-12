@@ -130,10 +130,16 @@ const getGuest = async (id: string) => {
   }
 };
 
-const salvarConvidado = () => {
+const salvarConvidado = async () => {
   loading.value = true;
 
-  setTimeout(() => {
+  try {
+    if (isEdit.value) {
+      await api.put(`/guest/update-guest/${route.query.id}`, form.value);
+    } else {
+      await api.post("/guest/register", form.value);
+    }
+
     $q.notify({
       type: "positive",
       message: isEdit.value
@@ -141,9 +147,19 @@ const salvarConvidado = () => {
         : "Convidado cadastrado com sucesso!",
       position: "top",
     });
-    loading.value = false;
+
     router.push("/lista-convidados");
-  }, 500);
+  } catch (error) {
+    console.error("Erro ao salvar convidado:", error);
+
+    $q.notify({
+      type: "negative",
+      message: "Erro ao salvar convidado",
+      position: "top",
+    });
+  } finally {
+    loading.value = false;
+  }
 };
 
 const voltar = () => {
