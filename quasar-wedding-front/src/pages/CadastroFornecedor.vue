@@ -86,6 +86,7 @@
 import { ref, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useQuasar } from "quasar";
+import { api } from "src/boot/api";
 import type { Supplier } from "src/utils/fornecedor";
 
 const router = useRouter();
@@ -115,45 +116,40 @@ const form = ref<Supplier>({
   price: "",
 });
 
-const mockFornecedores = [
-  {
-    id: 1,
-    name: "Buffet Delícias",
-    categories: "Buffet",
-    phone: "(11) 3456-7890",
-    price: "R$ 15.000,00",
-  },
-  {
-    id: 2,
-    name: "Foto & Vídeo Premium",
-    categories: "Fotografia",
-    phone: "(11) 3456-1234",
-    price: "R$ 5.000,00",
-  },
-  {
-    id: 3,
-    name: "Flores & Decoração",
-    categories: "Decoração",
-    phone: "(11) 3456-5678",
-    price: "R$ 8.000,00",
-  },
-];
-
-onMounted(() => {
+onMounted(async () => {
   const id = route.query.id;
   if (id) {
     isEdit.value = true;
-    const fornecedor = mockFornecedores.find((f) => f.id === Number(id));
-    if (fornecedor) {
-      form.value = { ...fornecedor };
-    }
+
+    await getSupplier(id as string);
   }
 });
 
-const salvarFornecedor = () => {
+const getSupplier = async (id: string) => {
+  try {
+    const response = await api.get(`/supplier/get-supplier/${id}`);
+
+    form.value = response.data.data;
+  } catch (error) {
+    console.error("Erro ao buscar fornecedor:", error);
+    $q.notify({
+      type: "negative",
+      message: "Erro ao carregar dados do fornecedor",
+      position: "top",
+    });
+  }
+};
+
+const salvarFornecedor = async () => {
   loading.value = true;
 
-  setTimeout(() => {
+  try {
+    if (isEdit.value) {
+      await api.put(`/supplier/update-supplier/${route.query.id}`, form.value);
+    } else {
+      await api.post("/supplier/register", form.value);
+    }
+
     $q.notify({
       type: "positive",
       message: isEdit.value
@@ -161,11 +157,20 @@ const salvarFornecedor = () => {
         : "Fornecedor cadastrado com sucesso!",
       position: "top",
     });
-    loading.value = false;
-    router.push("/lista-fornecedores");
-  }, 500);
-};
 
+    router.push("/lista-fornecedores");
+  } catch (error) {
+    console.error("Erro ao salvar fornecedor:", error);
+
+    $q.notify({
+      type: "negative",
+      message: "Erro ao salvar fornecedor",
+      position: "top",
+    });
+  } finally {
+    loading.value = false;
+  }
+};
 const voltar = () => {
   router.push("/lista-fornecedores");
 };

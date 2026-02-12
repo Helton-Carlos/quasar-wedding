@@ -23,6 +23,29 @@ export async function registerSupplier(req: Request<Supplier>, res: Response) {
   }
 }
 
+export async function getSupplier(req: Request, res: Response) {
+  const { id } = req.params;
+
+  try {
+    const stmt = db.prepare("SELECT * FROM supplier WHERE id = ?");
+    const supplier = stmt.get(id as string);
+
+    if (!supplier) {
+      res.status(404).json({ erro: "Fornecedor não encontrado" });
+      return;
+    }
+
+    res.status(200).json({
+      message: "Fornecedor encontrado com sucesso!",
+      data: supplier,
+    });
+  } catch (error: any) {
+    console.error("Erro ao buscar fornecedor:", error);
+
+    res.status(500).json({ erro: "Erro no servidor" });
+  }
+}
+
 export async function getAllSuppliers(_req: Request<Supplier>, res: Response) {
   try {
     const result = db.prepare("SELECT * FROM supplier").all();
