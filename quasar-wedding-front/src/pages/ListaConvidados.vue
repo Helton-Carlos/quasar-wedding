@@ -21,9 +21,9 @@
           <q-td :props="props">
             <q-badge
               :color="
-                props.row.confirmed === 'sim'
+                props.row.confirmed === 'Sim'
                   ? 'green'
-                  : props.row.confirmed === 'não'
+                  : props.row.confirmed === 'Não'
                     ? 'red'
                     : 'orange'
               "
