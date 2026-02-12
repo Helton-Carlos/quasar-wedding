@@ -89,8 +89,8 @@
 import { ref, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useQuasar } from "quasar";
-import type { Guest } from "src/utils/convidado";
 import { api } from "src/boot/api";
+import type { Guest } from "src/utils/convidado";
 
 const router = useRouter();
 const route = useRoute();
@@ -106,12 +106,12 @@ const form = ref<Guest>({
   confirmed: "Pendente",
 });
 
-onMounted(() => {
+onMounted(async () => {
   const id = route.query.id;
   if (id) {
     isEdit.value = true;
 
-    getGuest(id as string);
+    await getGuest(id as string);
   }
 });
 

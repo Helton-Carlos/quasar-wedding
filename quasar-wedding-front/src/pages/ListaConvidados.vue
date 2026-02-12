@@ -106,8 +106,8 @@ const columns = [
   },
 ];
 
-onMounted(() => {
-  getAllGuests();
+onMounted(async () => {
+  await getAllGuests();
 });
 
 const pagination = ref({
