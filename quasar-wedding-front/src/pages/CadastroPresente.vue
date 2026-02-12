@@ -1,5 +1,13 @@
 <template>
   <q-page padding>
+    <q-btn
+      class="q-pb-md"
+      label="Voltar"
+      flat
+      icon="arrow_back"
+      @click="voltar"
+    />
+
     <div class="q-pa-md" style="max-width: 600px; margin: 0 auto">
       <div class="text-h5 q-mb-md">
         {{ isEdit ? "Editar Presente" : "Cadastrar Presente" }}

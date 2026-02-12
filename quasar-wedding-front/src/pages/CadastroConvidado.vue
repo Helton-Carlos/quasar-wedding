@@ -1,5 +1,13 @@
 <template>
   <q-page padding>
+    <q-btn
+      class="q-pb-md"
+      label="Voltar"
+      flat
+      icon="arrow_back"
+      @click="voltar"
+    />
+
     <div class="q-pa-md" style="max-width: 600px; margin: 0 auto">
       <div class="text-h5 q-mb-md">
         {{ isEdit ? "Editar Convidado" : "Cadastrar Convidado" }}
@@ -8,7 +16,7 @@
       <q-form @submit="salvarConvidado" class="q-gutter-md">
         <q-input
           filled
-          v-model="form.nome"
+          v-model="form.name"
           label="Nome Completo *"
           :rules="[(val) => !!val || 'Nome é obrigatório']"
         >
@@ -91,7 +99,7 @@ const isEdit = ref(false);
 const loading = ref(false);
 
 const form = ref<Guest>({
-  nome: "",
+  name: "",
   email: "",
   phone: "",
   confirmed: "Pendente",
@@ -100,21 +108,21 @@ const form = ref<Guest>({
 const mockGuests = [
   {
     id: 1,
-    nome: "João Silva",
+    name: "João Silva",
     email: "joao@email.com",
     phone: "(11) 98765-4321",
     confirmed: "Sim",
   },
   {
     id: 2,
-    nome: "Maria Santos",
+    name: "Maria Santos",
     email: "maria@email.com",
     phone: "(11) 98765-1234",
     confirmed: "Não",
   },
   {
     id: 3,
-    nome: "Pedro Oliveira",
+    name: "Pedro Oliveira",
     email: "pedro@email.com",
     phone: "(11) 98765-5678",
     confirmed: "Sim",
