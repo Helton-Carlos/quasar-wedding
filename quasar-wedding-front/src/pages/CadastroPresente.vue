@@ -1,7 +1,7 @@
 <template>
   <q-page padding>
     <q-btn
-      class="q-pb-md"
+      class="q-mb-md"
       label="Voltar"
       flat
       icon="arrow_back"
@@ -141,7 +141,7 @@ watch(
   () => form.value.status,
   (newStatus) => {
     if (newStatus === "Disponível") {
-      form.value.compradoPor = "-";
+      form.value.status = "-";
     }
   },
 );

@@ -17,18 +17,18 @@
         row-key="id"
         :pagination="pagination"
       >
-        <template v-slot:body-cell-confirmado="props">
+        <template v-slot:body-cell-confirmed="props">
           <q-td :props="props">
             <q-badge
               :color="
-                props.row.confirmado === 'Sim'
+                props.row.confirmed === 'sim'
                   ? 'green'
-                  : props.row.confirmado === 'Não'
+                  : props.row.confirmed === 'não'
                     ? 'red'
                     : 'orange'
               "
             >
-              {{ props.row.confirmado }}
+              {{ props.row.confirmed }}
             </q-badge>
           </q-td>
         </template>

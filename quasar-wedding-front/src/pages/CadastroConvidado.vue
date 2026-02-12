@@ -1,7 +1,7 @@
 <template>
   <q-page padding>
     <q-btn
-      class="q-pb-md"
+      class="q-mb-md"
       label="Voltar"
       flat
       icon="arrow_back"
