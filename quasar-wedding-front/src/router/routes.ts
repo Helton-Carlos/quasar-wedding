@@ -15,15 +15,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import("pages/ListaConvidados.vue"),
       },
       {
-        path: "lista-convidados/:id",
-        component: () => import("pages/ListaConvidados.vue"),
-      },
-      {
         path: "cadastro-convidado",
-        component: () => import("pages/CadastroConvidado.vue"),
-      },
-      {
-        path: "cadastro-convidado/:id",
         component: () => import("pages/CadastroConvidado.vue"),
       },
       {
@@ -44,10 +36,10 @@ const routes: RouteRecordRaw[] = [
       },
     ],
   },
-  // {
-  //   path: "/:catchAll(.*)*",
-  //   component: () => import("pages/ErrorNotFound.vue"),
-  // },
+  {
+    path: "/:catchAll(.*)*",
+    component: () => import("pages/ErrorNotFound.vue"),
+  },
 ];
 
 export default routes;
