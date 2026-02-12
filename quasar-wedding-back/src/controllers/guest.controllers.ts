@@ -28,6 +28,29 @@ export async function registerGuest(req: Request<Guest>, res: Response) {
   }
 }
 
+export async function getGuest(req: Request, res: Response) {
+  const { id } = req.params;
+
+  try {
+    const stmt = db.prepare("SELECT * FROM guest WHERE id = ?");
+    const guest = stmt.get(id as string);
+
+    if (!guest) {
+      res.status(404).json({ erro: "Convidado não encontrado" });
+      return;
+    }
+
+    res.status(200).json({
+      message: "Convidado encontrado com sucesso!",
+      data: guest,
+    });
+  } catch (error: any) {
+    console.error("Erro ao buscar convidado:", error);
+
+    res.status(500).json({ erro: "Erro no servidor" });
+  }
+}
+
 export async function getAllGuests(_req: Request<Guest>, res: Response) {
   try {
     const result = db.prepare("SELECT * FROM guest").all();

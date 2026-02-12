@@ -116,7 +116,7 @@ const pagination = ref({
 
 async function getAllGuests() {
   try {
-    const response = await api.get("/api/guest/get-all-guests");
+    const response = await api.get("/guest/get-all-guests");
     convidados.value = response.data.data;
 
     $q.notify({

@@ -90,6 +90,7 @@ import { ref, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useQuasar } from "quasar";
 import type { Guest } from "src/utils/convidado";
+import { api } from "src/boot/api";
 
 const router = useRouter();
 const route = useRoute();
@@ -105,40 +106,29 @@ const form = ref<Guest>({
   confirmed: "Pendente",
 });
 
-const mockGuests = [
-  {
-    id: 1,
-    name: "João Silva",
-    email: "joao@email.com",
-    phone: "(11) 98765-4321",
-    confirmed: "Sim",
-  },
-  {
-    id: 2,
-    name: "Maria Santos",
-    email: "maria@email.com",
-    phone: "(11) 98765-1234",
-    confirmed: "Não",
-  },
-  {
-    id: 3,
-    name: "Pedro Oliveira",
-    email: "pedro@email.com",
-    phone: "(11) 98765-5678",
-    confirmed: "Sim",
-  },
-];
-
 onMounted(() => {
   const id = route.query.id;
   if (id) {
     isEdit.value = true;
-    const convidado = mockGuests.find((c) => c.id === Number(id));
-    if (convidado) {
-      form.value = { ...convidado };
-    }
+
+    getGuest(id as string);
   }
 });
+
+const getGuest = async (id: string) => {
+  try {
+    const response = await api.get(`/guest/get-guest/${id}`);
+
+    form.value = response.data.data;
+  } catch (error) {
+    console.error("Erro ao buscar convidado:", error);
+    $q.notify({
+      type: "negative",
+      message: "Erro ao carregar dados do convidado",
+      position: "top",
+    });
+  }
+};
 
 const salvarConvidado = () => {
   loading.value = true;
