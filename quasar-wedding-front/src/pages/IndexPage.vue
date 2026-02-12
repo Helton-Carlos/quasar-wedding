@@ -70,7 +70,7 @@ const cards = ref<CardItem[]>([
     id: 3,
     title: "Fornecedores",
     description: "Controle todos os fornecedores e serviços",
-    path: "/fornecedores",
+    path: "/lista-fornecedores",
     image:
       "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=500&h=300&fit=crop",
   },

@@ -27,8 +27,8 @@ const routes: RouteRecordRaw[] = [
         component: () => import("pages/CadastroPresente.vue"),
       },
       {
-        path: "fornecedores",
-        component: () => import("pages/Fornecedores.vue"),
+        path: "lista-fornecedores",
+        component: () => import("pages/ListaFornecedores.vue"),
       },
       {
         path: "cadastro-fornecedor",

@@ -162,11 +162,11 @@ const salvarFornecedor = () => {
       position: "top",
     });
     loading.value = false;
-    router.push("/fornecedores");
+    router.push("/lista-fornecedores");
   }, 500);
 };
 
 const voltar = () => {
-  router.push("/fornecedores");
+  router.push("/lista-fornecedores");
 };
 </script>

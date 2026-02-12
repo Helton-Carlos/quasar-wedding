@@ -69,9 +69,9 @@ const menuLinks: MenuLink[] = [
     path: "/lista-presentes",
   },
   {
-    title: "Fornecedores",
+    title: "Lista de Fornecedores",
     icon: "business",
-    path: "/fornecedores",
+    path: "/lista-fornecedores",
   },
 ];
 
