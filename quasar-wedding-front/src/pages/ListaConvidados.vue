@@ -147,7 +147,7 @@ const editarConvidado = (convidado: any) => {
 const deletarConvidado = (id: number) => {
   try {
     api.delete(`/guest/delete-guest/${id}`);
-    convidados.value = convidados.value.filter((c) => c.id !== id);
+    convidados.value = convidados.value.filter((item) => item.id !== id);
 
     $q.notify({
       type: "positive",

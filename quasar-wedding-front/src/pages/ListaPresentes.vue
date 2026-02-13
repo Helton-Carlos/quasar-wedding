@@ -141,7 +141,7 @@ const editarPresente = (presente: any) => {
 const deletarPresente = (id: number) => {
   try {
     api.delete(`/gift/delete-gift/${id}`);
-    presentes.value = presentes.value.filter((p) => p.id !== id);
+    presentes.value = presentes.value.filter((item) => item.id !== id);
 
     $q.notify({
       type: "positive",

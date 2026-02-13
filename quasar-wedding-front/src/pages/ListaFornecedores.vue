@@ -131,7 +131,7 @@ const editarFornecedor = (fornecedor: any) => {
 const deletarFornecedor = (id: number) => {
   try {
     api.delete(`/supplier/delete-supplier/${id}`);
-    fornecedores.value = fornecedores.value.filter((f) => f.id !== id);
+    fornecedores.value = fornecedores.value.filter((item) => item.id !== id);
 
     $q.notify({
       type: "positive",
