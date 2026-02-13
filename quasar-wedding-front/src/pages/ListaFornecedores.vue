@@ -129,10 +129,21 @@ const editarFornecedor = (fornecedor: any) => {
 };
 
 const deletarFornecedor = (id: number) => {
-  $q.notify({
-    type: "negative",
-    message: "Fornecedor removido",
-    position: "top",
-  });
+  try {
+    api.delete(`/supplier/delete-supplier/${id}`);
+    fornecedores.value = fornecedores.value.filter((f) => f.id !== id);
+
+    $q.notify({
+      type: "positive",
+      message: "Fornecedor removido com sucesso",
+      position: "top",
+    });
+  } catch (error) {
+    $q.notify({
+      type: "negative",
+      message: "Fornecedor removido",
+      position: "top",
+    });
+  }
 };
 </script>

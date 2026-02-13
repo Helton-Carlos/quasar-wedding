@@ -65,3 +65,58 @@ export async function getAllGuests(_req: Request<Guest>, res: Response) {
     res.status(500).json({ erro: "Erro no servidor" });
   }
 }
+
+export async function updateGuest(req: Request<Guest>, res: Response) {
+  const { id } = req.params;
+  const { name, email, phone, confirmed } = req.body;
+
+  try {
+    const stmt = db.prepare(
+      "UPDATE guest SET name = ?, email = ?, phone = ?, confirmed = ? WHERE id = ?",
+    );
+
+    const result = stmt.run(name, email, phone, confirmed, id);
+
+    if (result.changes === 0) {
+      res.status(404).json({ erro: "Convidado não encontrado" });
+      return;
+    }
+
+    res.status(200).json({
+      message: "Convidado atualizado com sucesso!",
+      result,
+    });
+  } catch (error: any) {
+    console.error("Erro ao atualizar convidado:", error);
+
+    if (error.message.includes("UNIQUE")) {
+      res.status(409).json({ erro: "Email já cadastrado" });
+      return;
+    }
+
+    res.status(500).json({ erro: "Erro no servidor" });
+  }
+}
+
+export async function deleteGuest(req: Request, res: Response) {
+  const { id } = req.params;
+
+  try {
+    const stmt = db.prepare("DELETE FROM guest WHERE id = ?");
+    const result = stmt.run(id as string);
+
+    if (result.changes === 0) {
+      res.status(404).json({ erro: "Convidado não encontrado" });
+      return;
+    }
+
+    res.status(200).json({
+      message: "Convidado deletado com sucesso!",
+      result,
+    });
+  } catch (error: any) {
+    console.error("Erro ao deletar convidado:", error);
+
+    res.status(500).json({ erro: "Erro no servidor" });
+  }
+}

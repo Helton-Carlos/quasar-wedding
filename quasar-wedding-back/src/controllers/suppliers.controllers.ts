@@ -60,3 +60,52 @@ export async function getAllSuppliers(_req: Request<Supplier>, res: Response) {
     res.status(500).json({ erro: "Erro no servidor" });
   }
 }
+
+export async function deleteSupplier(req: Request, res: Response) {
+  const { id } = req.params;
+
+  try {
+    const stmt = db.prepare("DELETE FROM supplier WHERE id = ?");
+    const result = stmt.run(id as string);
+
+    if (result.changes === 0) {
+      res.status(404).json({ erro: "Fornecedor não encontrado" });
+      return;
+    }
+
+    res.status(200).json({
+      message: "Fornecedor deletado com sucesso!",
+    });
+  } catch (error: any) {
+    console.error("Erro ao deletar fornecedor:", error);
+
+    res.status(500).json({ erro: "Erro no servidor" });
+  }
+}
+
+export async function updateSupplier(req: Request<Supplier>, res: Response) {
+  const { id } = req.params;
+  const { name, categories, phone, price } = req.body;
+
+  try {
+    const stmt = db.prepare(
+      "UPDATE supplier SET name = ?, categories = ?, phone = ?, price = ? WHERE id = ?",
+    );
+
+    const result = stmt.run(name, categories, phone, price, id);
+
+    if (result.changes === 0) {
+      res.status(404).json({ erro: "Fornecedor não encontrado" });
+      return;
+    }
+
+    res.status(200).json({
+      message: "Fornecedor atualizado com sucesso!",
+      result,
+    });
+  } catch (error: any) {
+    console.error("Erro ao atualizar fornecedor:", error);
+
+    res.status(500).json({ erro: "Erro no servidor" });
+  }
+}

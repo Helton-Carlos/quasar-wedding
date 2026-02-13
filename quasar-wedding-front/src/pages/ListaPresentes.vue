@@ -53,27 +53,28 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { useQuasar } from "quasar";
 import { useRouter } from "vue-router";
+import { api } from "src/boot/api";
 
 const $q = useQuasar();
 const router = useRouter();
 
 const columns = [
   {
-    name: "nome",
+    name: "name",
     required: true,
     label: "Presente",
     align: "left" as const,
-    field: "nome" as const,
+    field: "name" as const,
     sortable: true,
   },
   {
-    name: "valor",
+    name: "price",
     label: "Valor",
     align: "left" as const,
-    field: "valor" as const,
+    field: "price" as const,
     sortable: true,
   },
   {
@@ -84,10 +85,10 @@ const columns = [
     sortable: true,
   },
   {
-    name: "compradoPor",
+    name: "idGuest",
     label: "Comprado Por",
     align: "left" as const,
-    field: "compradoPor" as const,
+    field: "idGuest" as const,
   },
   {
     name: "actions",
@@ -97,33 +98,34 @@ const columns = [
   },
 ];
 
-const presentes = ref([
-  {
-    id: 1,
-    nome: "Jogo de Panelas",
-    valor: "R$ 450,00",
-    status: "Disponível",
-    compradoPor: "-",
-  },
-  {
-    id: 2,
-    nome: "Liquidificador",
-    valor: "R$ 250,00",
-    status: "Reservado",
-    compradoPor: "Ana Costa",
-  },
-  {
-    id: 3,
-    nome: "Jogo de Cama",
-    valor: "R$ 350,00",
-    status: "Disponível",
-    compradoPor: "-",
-  },
-]);
+const presentes = ref([]);
 
 const pagination = ref({
   rowsPerPage: 10,
 });
+
+onMounted(async () => {
+  await getAllGifts();
+});
+
+async function getAllGifts() {
+  try {
+    const response = await api.get("/gift/get-all-gifts");
+    presentes.value = response.data.data;
+
+    $q.notify({
+      type: "success",
+      message: response.data.message || "Presentes carregados com sucesso",
+      position: "top",
+    });
+  } catch (error) {
+    $q.notify({
+      type: "negative",
+      message: "Erro ao carregar presentes",
+      position: "top",
+    });
+  }
+}
 
 const adicionarPresente = () => {
   router.push("/cadastro-presente");
@@ -137,10 +139,21 @@ const editarPresente = (presente: any) => {
 };
 
 const deletarPresente = (id: number) => {
-  $q.notify({
-    type: "negative",
-    message: "Presente removido",
-    position: "top",
-  });
+  try {
+    api.delete(`/gift/delete-gift/${id}`);
+    presentes.value = presentes.value.filter((p) => p.id !== id);
+
+    $q.notify({
+      type: "positive",
+      message: "Presente removido com sucesso",
+      position: "top",
+    });
+  } catch (error) {
+    $q.notify({
+      type: "negative",
+      message: "Erro ao remover presente",
+      position: "top",
+    });
+  }
 };
 </script>

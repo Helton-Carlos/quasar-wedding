@@ -145,10 +145,21 @@ const editarConvidado = (convidado: any) => {
 };
 
 const deletarConvidado = (id: number) => {
-  $q.notify({
-    type: "negative",
-    message: "Convidado removido",
-    position: "top",
-  });
+  try {
+    api.delete(`/guest/delete-guest/${id}`);
+    convidados.value = convidados.value.filter((c) => c.id !== id);
+
+    $q.notify({
+      type: "positive",
+      message: "Convidado removido com sucesso",
+      position: "top",
+    });
+  } catch (error) {
+    $q.notify({
+      type: "negative",
+      message: "Erro ao remover convidado",
+      position: "top",
+    });
+  }
 };
 </script>

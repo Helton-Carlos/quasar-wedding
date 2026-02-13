@@ -37,3 +37,53 @@ export async function getAllGifts(_req: Request<Gift>, res: Response) {
     res.status(500).json({ erro: "Erro no servidor" });
   }
 }
+
+export async function updatedGift(req: Request<Gift>, res: Response) {
+  const { id } = req.params;
+  const { name, price, status, idGuest } = req.body;
+
+  try {
+    const stmt = db.prepare(
+      "UPDATE gift SET name = ?, price = ?, status = ?, idGuest = ? WHERE id = ?",
+    );
+
+    const result = stmt.run(name, price, status, idGuest, id);
+
+    if (result.changes === 0) {
+      res.status(404).json({ erro: "Presente não encontrado" });
+      return;
+    }
+
+    res.status(200).json({
+      message: "Presente atualizado com sucesso!",
+      result,
+    });
+  } catch (error: any) {
+    console.error("Erro ao atualizar presente:", error);
+
+    res.status(500).json({ erro: "Erro no servidor" });
+  }
+}
+
+export async function deleteGift(req: Request, res: Response) {
+  const { id } = req.params;
+
+  try {
+    const stmt = db.prepare("DELETE FROM gift WHERE id = ?");
+    const result = stmt.run(id as string);
+
+    if (result.changes === 0) {
+      res.status(404).json({ erro: "Presente não encontrado" });
+      return;
+    }
+
+    res.status(200).json({
+      message: "Presente deletado com sucesso!",
+      result,
+    });
+  } catch (error: any) {
+    console.error("Erro ao deletar presente:", error);
+
+    res.status(500).json({ erro: "Erro no servidor" });
+  }
+}
