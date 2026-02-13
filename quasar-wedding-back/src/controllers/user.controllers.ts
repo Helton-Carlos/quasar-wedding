@@ -42,3 +42,28 @@ export async function getAllUsers(_req: Request<User>, res: Response) {
     res.status(500).json({ erro: "Erro no servidor" });
   }
 }
+
+export async function signIn(req: Request<User>, res: Response) {
+  const { email, password } = req.body;
+
+  try {
+    const stmt = db.prepare(
+      "SELECT * FROM user WHERE email = ? AND password = ?",
+    );
+
+    const user = stmt.get(email, password);
+    delete user?.password;
+
+    if (user) {
+      res.status(200).json({
+        message: "Login bem-sucedido!",
+        user,
+      });
+    } else {
+      res.status(401).json({ erro: "Credenciais inválidas" });
+    }
+  } catch (error: any) {
+    console.error("Erro ao realizar login:", error);
+    res.status(500).json({ erro: "Erro no servidor" });
+  }
+}
