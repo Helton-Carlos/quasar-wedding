@@ -92,7 +92,7 @@ export async function updateSupplier(req: Request<Supplier>, res: Response) {
       "UPDATE supplier SET name = ?, categories = ?, phone = ?, price = ? WHERE id = ?",
     );
 
-    const result = stmt.run(name, categories, phone, price, id);
+    const result = stmt.run(name, categories, phone, price, id as string);
 
     if (result.changes === 0) {
       res.status(404).json({ erro: "Fornecedor não encontrado" });

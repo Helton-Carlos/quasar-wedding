@@ -47,7 +47,7 @@ export async function updatedGift(req: Request<Gift>, res: Response) {
       "UPDATE gift SET name = ?, price = ?, status = ?, idGuest = ? WHERE id = ?",
     );
 
-    const result = stmt.run(name, price, status, idGuest, id);
+    const result = stmt.run(name, price, status, idGuest, id as string);
 
     if (result.changes === 0) {
       res.status(404).json({ erro: "Presente não encontrado" });

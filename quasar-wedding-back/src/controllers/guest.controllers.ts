@@ -75,7 +75,7 @@ export async function updateGuest(req: Request<Guest>, res: Response) {
       "UPDATE guest SET name = ?, email = ?, phone = ?, confirmed = ? WHERE id = ?",
     );
 
-    const result = stmt.run(name, email, phone, confirmed, id);
+    const result = stmt.run(name, email, phone, confirmed, id as string);
 
     if (result.changes === 0) {
       res.status(404).json({ erro: "Convidado não encontrado" });
